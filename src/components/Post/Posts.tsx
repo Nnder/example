@@ -17,25 +17,18 @@ interface IPost {
     body: string
 }
 
-
-// получаем данные c api
-async function getPosts() : Promise<IPost[]>{
-    const response = await fetch(`${url}/posts`)
-    return await response.json();
-}
-
 const Posts = () => {
     const [posts, setPosts] = useState<IPost[]>([])
-
     // при загрузке страницы получаем post
     useEffect(()=> {
-        try {
-            getPosts().then((data)=>{
-                setPosts(data);
-            })
-        } catch (e) {
-            console.error(e);
+        async function getPosts(){
+            // получаем данные c api
+            const response = await fetch(`${url}/posts`)
+            const data : IPost[] = await response.json();
+            setPosts(data);
         }
+
+        getPosts()
     }, [])
 
     return (
