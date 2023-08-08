@@ -20,7 +20,7 @@ interface IPost {
 // получаем данные c api
 async function getPosts() : Promise<IPost[]>{
     const response = await fetch(`${url}/posts`)
-    return response.json();
+    return await response.json();
 }
 
 const Posts = () => {
@@ -39,18 +39,22 @@ const Posts = () => {
 
     return (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            {posts.map((post: IPost) =>(
-                // key должен быть уникальным, чтобы избежать лишних render
-                <Card key={post.id} style={{ maxWidth: '46rem', margin: '5px' }}>
-                    <Card.Header as="h5">Post №{post.id} from user {post.userId}</Card.Header>
-                    <Card.Body>
-                        <Card.Title>{post.title}</Card.Title>
-                        <Card.Text>
-                            {post.body}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            ))}
+            {posts.length ? (
+                posts.map((post: IPost) =>(
+                    // key должен быть уникальным, чтобы избежать лишних render
+                    <Card key={post.id} style={{ maxWidth: '46rem', margin: '5px' }}>
+                        <Card.Header as="h5">Post №{post.id} from user {post.userId}</Card.Header>
+                        <Card.Body>
+                            <Card.Title>{post.title}</Card.Title>
+                            <Card.Text>
+                                {post.body}
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                )))
+                : (<div>Posts not found</div>)
+            }
+
         </div>
     );
 };
