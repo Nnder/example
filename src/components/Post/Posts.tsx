@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Card from 'react-bootstrap/Card';
+import styles from './Posts.module.css';
 
 // получаем ссылку из переменных окружения
 // добавил тернарный оператор тк в ide на stackblitz не работали env
@@ -38,11 +39,11 @@ const Posts = () => {
     }, [])
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div className={styles.list}>
             {posts.length ? (
                 posts.map((post: IPost) =>(
                     // key должен быть уникальным, чтобы избежать лишних render
-                    <Card key={post.id} style={{ maxWidth: '46rem', margin: '5px' }}>
+                    <Card key={post.id} className={styles.item}>
                         <Card.Header as="h5">Post №{post.id} from user {post.userId}</Card.Header>
                         <Card.Body>
                             <Card.Title>{post.title}</Card.Title>
